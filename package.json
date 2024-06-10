@@ -5,8 +5,10 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@lottiefiles/lottie-player": "^2.0.4",
     "@mui/material": "^5.15.19",
     "ajv": "^8.16.0",
+    "axios": "^1.7.2",
     "bootstrap": "4.6.2",
     "chart.js": "3.9.1",
     "perfect-scrollbar": "1.5.5",

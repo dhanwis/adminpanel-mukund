@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // reactstrap components
 import { Card, CardHeader, CardBody, CardTitle, Row, Col, CardText, CardImg } from "reactstrap";
@@ -10,6 +10,8 @@ import Modal from '@mui/material/Modal';
 import logo from "assets/img/image.png";
 import Edit from "./Edit";
 import Form from 'react-bootstrap/Form';
+import { addprductAPI } from "services/allAPI";
+import { allproductAPI } from "services/allAPI";
 
 
 const style = {
@@ -33,6 +35,7 @@ function Icons() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [preview,setpreview]=useState("")
 
 
   const [product,setProduct]=useState({
@@ -44,7 +47,100 @@ image:""
 
   })
 
+  useEffect(()=>{
+    if(product.image)
+    {(setpreview(URL.createObjectURL(product.image)))}
+    else{
+      setpreview("")
+    }
+  },[product.image])
+
+
+  console.log(preview);
+
   console.log(product);
+
+
+
+  // add product
+  const handleadd=async(e)=>{
+    e.preventDefault()
+  
+    const {productname,description,image}=product
+  
+    if(!productname || !description || !image){
+      alert('please fill the form completely')
+    }
+    else{
+      // reqbody
+      // 1)create object for formdata--since we  have uploaded the content--new method is used to create a object
+      const reqbody=new FormData()
+      // 2)add data to formdata-append()
+      reqbody.append("productname",productname)
+      reqbody.append("description",description)
+      reqbody.append("image",image)
+  
+        const reqheader={
+          "Content-Type":"multipart/form-data",
+         
+  
+        }
+
+
+       
+  
+      
+  
+  
+  
+  
+  
+  
+  
+      const result=await addprductAPI(reqbody,reqheader)
+      console.log(result);
+      if(result.status===200){
+  
+        console.log(result.data);
+        alert('product added succesfully')
+        handleClose()
+        //  setaddprojectresponse(result.data)
+      }
+      else{
+        alert(result.response.data);
+      }
+    
+  
+    }
+  
+    
+  
+  
+      }
+
+      const [useproject,setuserproject]=useState([])
+
+
+
+       // get products
+       const getproducts=async()=>{
+         
+        const reqheader={
+            "Content-Type":"application/json",
+          
+        }
+        const result=await allproductAPI (reqheader)
+        console.log(result.data);
+         setuserproject(result.data)
+
+
+    }
+    useEffect(()=>{
+        getproducts()
+    },[])
+
+  
+
   return (
     <>
       <div className="content">
@@ -169,11 +265,13 @@ image:""
 <center>
   
             <label htmlFor="imag">
-         <input id='imag' type="file" style={{display:'none'}}  />
-  <img className='' src={logo} alt=""  width={'160px'} height={'160px'} /></label>
+         <input id='imag' type="file" style={{display:'none'}}  onChange={(e)=>setProduct({...product,image:e.target.files[0]})}  />
+  <img className='' src={preview?preview:logo} alt=""  width={'160px'} height={'160px'} /></label>
   
 </center>
 {/* </div> */}
+
+
 
 <br />
 
@@ -192,7 +290,7 @@ image:""
                   
                    
         <center>
-            <Button >
+            <Button onClick={handleadd} >
            Add
           </Button>
         </center>
