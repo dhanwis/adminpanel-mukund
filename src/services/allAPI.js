@@ -19,6 +19,19 @@ export const allproductAPI=async(reqheader)=>{
 }
 
 
+// edit product
+export const editProductAPI = async(productId,reqBody,reqheader)=>{
+    
+    return await commonAPI('PUT',`${BASE_URL}/product/edit/${productId}`,reqBody,reqheader)
+ }
+
+
+ //  delete project
+export const deleteProductAPI = async(productId,reqheader)=>{
+    return await commonAPI('DELETE',`${BASE_URL}/product/remove/${productId}`,{},reqheader)
+ }
+
+
 
 
 

@@ -27,10 +27,12 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 import AdminLayout from "layouts/Admin.js";
 import Login from "views/Login";
+import Contextshareeee from "components/context/ContextShareeee";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
+  <Contextshareeee> 
   <BrowserRouter>
     <Routes>
       <Route path="/admin/*" element={<AdminLayout />} />
@@ -40,4 +42,6 @@ root.render(
 
     </Routes>
   </BrowserRouter>
+  </Contextshareeee>
+
 );
