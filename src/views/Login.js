@@ -37,48 +37,35 @@ password:""
   const navigate=useNavigate()
 
 
-  const handlelogin=async(e)=>{
-    e.preventDefault()
-    const {username,password}=userData
-    if(!username|| !password){
-        alert('please fill the form completely')
-    }
-    else{
-        const result=await loginAPI(userData)
-        // toast.success('login successful')
-        console.log(result);
-        if(result.status==200){
-            // alert
-            alert('login successfull')
-            // setisauthtoken(true)
-            // store
-            sessionStorage.getItem("existinguser",JSON.stringify(result.data.existinguser))
-            sessionStorage.getItem("token",(result.data.token))
+  const [errorMessage, setErrorMessage] = useState('');
 
+  const handleLogin = async (e) => {
+      e.preventDefault();
+      const { username, password } = userData;
+      if (!username || !password) {
+          setErrorMessage('Please fill the form completely');
+      } else {
+          try {
+              const result = await loginAPI(userData);
+              console.log(result);
+              if (result.status === 200) {
+                  sessionStorage.setItem('existinguser', JSON.stringify(result.data.existinguser));
+                  sessionStorage.setItem('token', result.data.token);
+                  setuserData({
+                      username: '',
+                      password: ''
+                  });
+                  navigate('/admin/dashboard');
+              } else {
+                  setErrorMessage(result.response.data);
+              }
+          } catch (error) {
+              console.error('Error:', error);
+              setErrorMessage('An error occurred. Please try again later.');
+          }
+      }
+  };
 
-
-
-            //state empty
-            setuserData({
-                username:"",
-                password:""
-            }) 
-            // navigate
-            navigate('/admin/dashboard')
-
-      
-           
-
-        }
-        else{
-            alert(result.response.data)
-        }
-
-        
-        
-    }
-    
- }
   return (
     <div>
 
@@ -129,11 +116,17 @@ password:""
                             <Form.Group className='mt-3' controlId="validationFormik01">
                             <Form.Control style={{borderRadius:'10px'}} type="text" placeholder='Enter Your Password'  value={userData.password} onChange={(e)=>setuserData({...userData,password:e.target.value})}  />
                             </Form.Group>
+                            {errorMessage && <div style={{color:'red'}} className="error">{errorMessage}</div>}
                            
                                 <div className='d-flex align-items-center flex-column mt-4'>
-                                    <button onClick={handlelogin}   style={{borderRadius:'10px',backgroundColor:'FFD400'}} className='btn btn-dark'>Login</button>
+                                    <button onClick={handleLogin}   style={{borderRadius:'10px',backgroundColor:'FFD400'}} className='btn btn-dark'>Login</button>
 
                                 </div>
+
+
+
+
+                        
 
 
 

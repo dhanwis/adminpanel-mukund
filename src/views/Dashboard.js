@@ -1,22 +1,6 @@
-/*!
 
-=========================================================
-* Paper Dashboard React - v1.3.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
+import { addprojectresponsecontext } from "components/context/ContextShareeee";
+import React, { useContext, useEffect, useState } from "react";
 // react plugin used to create charts
 import { Line, Pie } from "react-chartjs-2";
 // reactstrap components
@@ -30,9 +14,38 @@ import {
   Col,
   Table,
 } from "reactstrap";
+import { allproductAPI } from "services/allAPI";
+import { BASE_URL } from "services/baseurl";
 
 
 function Dashboard() {
+
+
+
+  const [getProduct, setgetProduct] = useState([]);
+
+    const {addprojectresponse,setaddprojectresponse}=useContext(addprojectresponsecontext)
+
+
+
+
+    
+    useEffect(() => {
+      getProducts(); 
+
+    }, [addprojectresponse]);
+  
+    const getProducts = async () => {
+      const reqheader = {
+        "Content-Type": "application/json",
+      };
+      const result = await allproductAPI(reqheader);
+      setgetProduct(result.data);
+      setaddprojectresponse(result.data)
+    };
+
+    console.log(getProduct);
+
 
 
   
@@ -53,7 +66,7 @@ function Dashboard() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">Total Products</p>
-                      <CardTitle tag="p">50</CardTitle>
+                      <CardTitle tag="p">{getProduct.length}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -128,53 +141,39 @@ function Dashboard() {
               </CardHeader>
                <CardBody>
                
-
                <Table responsive>
-                  <thead className="text-primary">
-                    <tr>
-                      <th>Name</th>
-                      <th>Category</th>
-                      <th>Image</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Dakota Rice</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                    </tr>
-                    <tr>
-                      <td>Minerva Hooper</td>
-                      <td>Curaçao</td>
-                      <td>Sinaai-Waas</td>
-                    </tr>
-                    <tr>
-                      <td>Sage Rodriguez</td>
-                      <td>Netherlands</td>
-                      <td>Baileux</td>
-                    </tr>
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                    </tr>
-                    <tr>
-                      <td>Doris Greene</td>
-                      <td>Malawi</td>
-                      <td>Feldkirchen in Kärnten</td>
-                    </tr>
-                    <tr>
-                      <td>Mason Porter</td>
-                      <td>Chile</td>
-                      <td>Gloucester</td>
-                    </tr>
-                    <tr>
-                      <td>Jon Porter</td>
-                      <td>Portugal</td>
-                      <td>Gloucester</td>
-                    </tr>
-                  </tbody>
-                </Table>
+  <thead className="text-primary">
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Image</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      getProduct.length > 0 ?
+        getProduct.map((item) => (
+          <tr key={item.id}> {/* Assuming each item has a unique id */}
+            <td>{item.productname}</td>
+            <td>{item.description}</td>
+            <td>
+              <img 
+                src={`${BASE_URL}/uploads/${item.image}`} 
+                alt={item.productname} 
+                style={{ 
+                  width: '60px', 
+                  height: '60px', 
+                  borderRadius: '50%' 
+                }} 
+              />
+            </td>
+          </tr>
+        ))
+        : null
+    }
+  </tbody>
+</Table>
+
               </CardBody> 
               {/* <CardFooter>
                 <hr />

@@ -9,6 +9,9 @@ import Form from 'react-bootstrap/Form';
 import { addprductAPI, allproductAPI } from "services/allAPI";
 import { BASE_URL } from "services/baseurl";
 import { addprojectresponsecontext } from "components/context/ContextShareeee";
+import { editprojectresponsecontext } from "components/context/ContextShareeee";
+import Swal from "sweetalert2";
+
 
 const style = {
   position: 'absolute',
@@ -29,6 +32,7 @@ function Icons() {
 
   const [preview, setPreview] = useState("");
   const { addprojectresponse, setaddprojectresponse } = useContext(addprojectresponsecontext);
+  const {editprojectresponse,seteditprojectresponse}=useContext(editprojectresponsecontext)
   const [product, setProduct] = useState({
     productname: "",
     description: "",
@@ -48,7 +52,7 @@ function Icons() {
 
   useEffect(() => {
     getProducts();
-  }, [addprojectresponse]);
+  }, [addprojectresponse,editprojectresponse]);
 
   const getProducts = async () => {
     const reqheader = {
@@ -76,12 +80,29 @@ function Icons() {
 
       const result = await addprductAPI(reqbody, reqheader);
       if (result.status === 200) {
-        alert('Product added successfully');
+       
+
+        Swal.fire({
+          icon:'success',
+          title: 'Product added Successfully',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        })
         handleClose();
         setaddprojectresponse(result.data);
       } else {
         alert(result.response.data);
       }
+      setProduct({
+
+        productname:"",
+        description:"",
+        image:""
+      })
     }
   };
 
@@ -102,12 +123,12 @@ function Icons() {
                   <div className='row'>
                     {getProduct.length > 0 ? getProduct.map((item) => (
                       <div className='col-12 col-md-6 col-lg-4 mb-4' key={item.id}>
-                        <Card>
+                        <Card style={{width:'270px'}}>
                           <CardImg
                             alt="image"
                             src={`${BASE_URL}/uploads/${item.image}`}
                             top
-                            style={{ height: '200px', width: '200px' }}
+                            style={{ height: '200px', width: '270px' }}
                           />
                           <CardBody>
                             <CardTitle tag="h5">
@@ -137,6 +158,7 @@ function Icons() {
           >
             <Box sx={style}>
               <h3 className="mb-5" style={{ textAlign: 'center' }}>Add Products</h3>
+              
               <center>
                 <label htmlFor="imag">
                   <input id='imag' type="file" style={{ display: 'none' }} onChange={(e) => setProduct({ ...product, image: e.target.files[0] })} />
