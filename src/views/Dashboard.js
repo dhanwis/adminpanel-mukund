@@ -152,7 +152,7 @@ function Dashboard() {
   </thead>
   <tbody>
     {
-      getProduct.length > 0 ?
+    getProduct &&  getProduct.length > 0 ?
         getProduct.map((item,index) => (
           <tr key={item.id}> {/* Assuming each item has a unique id */}
             <td>{index+1}</td>

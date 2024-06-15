@@ -38,6 +38,7 @@ function Icons() {
     description: "",
     image: ""
   });
+  console.log(product);
 
 
   const [getProduct, setgetProduct] = useState([]);
@@ -65,25 +66,37 @@ function Icons() {
   const handleAdd = async (e) => {
     e.preventDefault();
     const { productname, description, image } = product;
-
+  
     if (!productname || !description || !image) {
       alert('Please fill the form completely');
     } else {
+      // Check the file type of the image
+      const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+      if (!validImageTypes.includes(image.type)) {
+        alert('Please upload an image file (png, jpg, jpeg)');
+        return;
+      }
+  
+      // Check the file size of the image (2MB = 2 * 1024 * 1024 bytes)
+      const maxSizeInBytes = 2 * 1024 * 1024;
+      if (image.size > maxSizeInBytes) {
+        alert('Please upload an image file smaller than 2MB');
+        return;
+      }
+  
       const reqbody = new FormData();
       reqbody.append("productname", productname);
       reqbody.append("description", description);
       reqbody.append("image", image);
-
+  
       const reqheader = {
         "Content-Type": "multipart/form-data",
       };
-
+  
       const result = await addprductAPI(reqbody, reqheader);
       if (result.status === 200) {
-       
-
         Swal.fire({
-          icon:'success',
+          icon: 'success',
           title: 'Product added Successfully',
           showClass: {
             popup: 'animate__animated animate__fadeInDown'
@@ -91,27 +104,28 @@ function Icons() {
           hideClass: {
             popup: 'animate__animated animate__fadeOutUp'
           }
-        })
+        });
         handleClose();
         setaddprojectresponse(result.data);
       } else {
         alert(result.response.data);
       }
+  
       setProduct({
-
-        productname:"",
-        description:"",
-        image:""
-      })
+        productname: "",
+        description: "",
+        image: ""
+      });
     }
   };
-
+  
+  
   return (
     <>
       <div className="content">
         <Row>
           <Col md="12">
-            <Card className="demo-icons">
+            <Card className="demo-icons" >   
               <CardHeader>
                 <h2 style={{ textAlign: 'center' }}>Products</h2>
                 <div className="container">
@@ -121,7 +135,7 @@ function Icons() {
               <CardBody className="all-icons">
                 <div className="container">
                   <div className='row'>
-                    {getProduct.length > 0 ? getProduct.map((item) => (
+                    {getProduct &&  getProduct.length > 0 ? getProduct.map((item) => (
                       <div className='col-12 col-md-6 col-lg-4 mb-4' key={item.id}>
                         <Card style={{width:'270px'}}>
                           <CardImg
@@ -171,7 +185,7 @@ function Icons() {
               </center>
               <br />
               <div className='mb-3 w-100'>
-                <Form.Control type="text" placeholder="Enter product name" value={product.productname} onChange={(e) => setProduct({ ...product, productname: e.target.value })} />
+                <Form.Control type="text" placeholder="Enter product name"  value={product.productname} onChange={(e) => setProduct({ ...product, productname: e.target.value })}  maxLength={25}/>
               </div>
               <div className='mb-3 w-100'>
                 <Form.Control style={{ padding: '25px' }} type="text" placeholder="Enter description" value={product.description} onChange={(e) => {

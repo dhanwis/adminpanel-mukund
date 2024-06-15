@@ -147,6 +147,7 @@ function Edit({ pass }) {
         className='form-control' 
         value={productDetails.productname} 
         onChange={(e) => setproductDetails({ ...productDetails, productname: e.target.value })} 
+        maxLength={25}
       />
     </div>
     <div className='mb-3 w-100'>
