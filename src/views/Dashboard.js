@@ -55,7 +55,7 @@ function Dashboard() {
         <Row>
          
           <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
+            <Card className="card-stats" style={{width:'20rem'}}>
               <CardBody>
                 <Row>
                   <Col md="4" xs="5">
@@ -135,7 +135,7 @@ function Dashboard() {
         </Row>
         <Row>
           <Col md="12">
-            <Card>
+            <Card >
               <CardHeader>
                 <CardTitle tag="h5">Top 10 Products</CardTitle>
               </CardHeader>
@@ -144,18 +144,19 @@ function Dashboard() {
                <Table responsive>
   <thead className="text-primary">
     <tr>
+       <th>ID</th>
       <th>Name</th>
-      <th>Description</th>
+     
       <th>Image</th>
     </tr>
   </thead>
   <tbody>
     {
       getProduct.length > 0 ?
-        getProduct.map((item) => (
+        getProduct.map((item,index) => (
           <tr key={item.id}> {/* Assuming each item has a unique id */}
+            <td>{index+1}</td>
             <td>{item.productname}</td>
-            <td>{item.description}</td>
             <td>
               <img 
                 src={`${BASE_URL}/uploads/${item.image}`} 

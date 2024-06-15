@@ -134,9 +134,13 @@ function Icons() {
                             <CardTitle tag="h5">
                               {item.productname}
                             </CardTitle>
-                            <CardText>
+                            <CardText style={{width:'15rem',height:'6rem'}} >
                               {item.description}
                             </CardText>
+                            {/* <div className='me-5' style={{width:'20rem',height:'10rem'}}>
+                                          <p style={{textAlign:'justify'}}>We pride ourselves on delivering machine tools of the highest quality,ensuring durability and optimal performance for all your machining needs.</p>
+  
+</div>     */}
                             <Edit pass={item} />
                           </CardBody>
                         </Card>
@@ -170,7 +174,21 @@ function Icons() {
                 <Form.Control type="text" placeholder="Enter product name" value={product.productname} onChange={(e) => setProduct({ ...product, productname: e.target.value })} />
               </div>
               <div className='mb-3 w-100'>
-                <Form.Control style={{ padding: '25px' }} type="text" placeholder="Enter description" value={product.description} onChange={(e) => setProduct({ ...product, description: e.target.value })} />
+                <Form.Control style={{ padding: '25px' }} type="text" placeholder="Enter description" value={product.description} onChange={(e) => {
+      const inputValue = e.target.value;
+      if (inputValue.length <= 100) {
+        setProduct({
+          ...product,
+          description: inputValue,
+        });
+      } else {
+        // Truncate the input to 14 characters
+        setProduct({
+          ...product,
+          description: inputValue.substring(0, 90),
+        });
+      }
+    }} />
               </div>
               <center>
                 <Button onClick={handleAdd}>
