@@ -16,6 +16,8 @@ import {
 } from "reactstrap";
 import { allproductAPI } from "services/allAPI";
 import { BASE_URL } from "services/baseurl";
+import nodata from "assets/img/no-data2.1.gif";
+
 
 
 function Dashboard() {
@@ -66,7 +68,7 @@ function Dashboard() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">Total Products</p>
-                      <CardTitle tag="p">{getProduct.length}</CardTitle>
+                      <CardTitle tag="p">{getProduct?.length}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -170,7 +172,7 @@ function Dashboard() {
             </td>
           </tr>
         ))
-        : null
+        :null
     }
   </tbody>
 </Table>

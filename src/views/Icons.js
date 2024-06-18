@@ -11,6 +11,8 @@ import { BASE_URL } from "services/baseurl";
 import { addprojectresponsecontext } from "components/context/ContextShareeee";
 import { editprojectresponsecontext } from "components/context/ContextShareeee";
 import Swal from "sweetalert2";
+import nodata from "assets/img/no-data2.1.gif";
+
 
 
 const style = {
@@ -134,33 +136,35 @@ function Icons() {
               </CardHeader>
               <CardBody className="all-icons">
                 <div className="container">
-                  <div className='row'>
-                    {getProduct &&  getProduct.length > 0 ? getProduct.map((item) => (
-                      <div className='col-12 col-md-6 col-lg-4 mb-4' key={item.id}>
-                        <Card style={{width:'270px'}}>
-                          <CardImg
-                            alt="image"
-                            src={`${BASE_URL}/uploads/${item.image}`}
-                            top
-                            style={{ height: '200px', width: '270px' }}
-                          />
-                          <CardBody>
-                            <CardTitle tag="h5">
-                              {item.productname}
-                            </CardTitle>
-                            <CardText style={{width:'15rem',height:'6rem'}} >
-                              {item.description}
-                            </CardText>
-                            {/* <div className='me-5' style={{width:'20rem',height:'10rem'}}>
-                                          <p style={{textAlign:'justify'}}>We pride ourselves on delivering machine tools of the highest quality,ensuring durability and optimal performance for all your machining needs.</p>
-  
-</div>     */}
-                            <Edit pass={item} />
-                          </CardBody>
-                        </Card>
-                      </div>
-                    )) : null}
-                  </div>
+                <div className='row'>
+  {getProduct && getProduct.length > 0 ? getProduct.map((item) => (
+    <div className='col-12 col-md-6 col-lg-4 mb-4' key={item.id}>
+      <Card style={{width:'270px'}}>
+        <CardImg
+          alt="image"
+          src={`${BASE_URL}/uploads/${item.image}`}
+          top
+          style={{ height: '200px', width: '270px' }}
+        />
+        <CardBody>
+          <CardTitle tag="h5">
+            {item.productname}
+          </CardTitle>
+          <CardText style={{width:'15rem',height:'6rem'}} >
+            {item.description}
+          </CardText>
+          <Edit pass={item} />
+        </CardBody>
+      </Card>
+    </div>
+  )) : (
+    <div className="col-12 d-flex flex-column align-items-center">
+      <img className='mb-5' style={{width:'35%'}} src={nodata} alt="Description of the image" />
+      <h4 className='mb-5' style={{color:'#d22127', textAlign:'center'}}>No products found!</h4>
+    </div>
+  )}
+</div>
+
                 </div>
               </CardBody>
             </Card>
