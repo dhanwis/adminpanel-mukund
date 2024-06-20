@@ -139,23 +139,23 @@ function Icons() {
                 <div className='row'>
   {getProduct && getProduct.length > 0 ? getProduct.map((item) => (
     <div className='col-12 col-md-6 col-lg-4 mb-4' key={item.id}>
-      <Card style={{width:'270px'}}>
-        <CardImg
-          alt="image"
-          src={`${BASE_URL}/uploads/${item.image}`}
-          top
-          style={{ height: '200px', width: '270px' }}
-        />
-        <CardBody>
-          <CardTitle tag="h5">
-            {item.productname}
-          </CardTitle>
-          <CardText style={{width:'15rem',height:'6rem'}} >
-            {item.description}
-          </CardText>
-          <Edit pass={item} />
-        </CardBody>
-      </Card>
+    <Card style={{ width: '270px', border: '1px solid rgb(52, 181, 184)', borderRadius: '10px', overflow: 'hidden' }}>
+      <CardImg
+        alt="image"
+        src={`${BASE_URL}/uploads/${item.image}`}
+        top
+        style={{ height: '200px', width: '270px' }}
+      />
+      <CardBody>
+        <CardTitle tag="h5">
+          {item.productname}
+        </CardTitle>
+        <CardText style={{ width: '15rem', height: '6rem' }}>
+          {item.description}
+        </CardText>
+        <Edit pass={item} />   
+      </CardBody>
+    </Card>
     </div>
   )) : (
     <div className="col-12 d-flex flex-column align-items-center">
@@ -222,3 +222,7 @@ function Icons() {
 }
 
 export default Icons;
+
+
+
+

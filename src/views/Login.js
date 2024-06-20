@@ -25,7 +25,7 @@ import { loginAPI } from 'services/allAPI';
 
 function Login() {
 
-  const [userData,setuserData]=useState({
+  const [userData,setUserData]=useState({
 username:"",
 password:""
 
@@ -51,9 +51,10 @@ password:""
               if (result.status === 200) {
                   sessionStorage.setItem('existinguser', JSON.stringify(result.data.existinguser));
                   sessionStorage.setItem('token', result.data.token);
-                  setuserData({
+                  setUserData({
                       username: '',
                       password: ''
+                    
                   });
                   navigate('/admin/dashboard');
               } else {
@@ -85,65 +86,53 @@ password:""
 
     <div className='col-1'></div>
     <div className='col-10'>
-        <Card className="card-user">
-                      <CardHeader>
-                        {/* <CardTitle tag="h5">Edit Profile</CardTitle> */}
-                      </CardHeader>
-                      <CardBody>
-
-                        <div className='row'>
-
-                        <Col  data-aos="fade-right" md={6} sm={12} className='me-5'>
-                <img  className='mt-5 ' src={giff} alt="" width={'110%'}  />
-
-                </Col>
-                <Col  data-aos="fade-left" className='ms-5'>
-                <h2 style={{fontWeight:'500'}}>Login</h2>
-                <h5 className='ms-5 mt-4'>{
-                   
-                    }</h5>
-                    <br />
-                    <br />
-                  
-                    <Form>
-                               
-                                  
-                                    <Form.Group className='mt-5' controlId="validationFormik01">
-                                    <Form.Control style={{borderRadius:'10px'}} type="text" placeholder='Enter Yourname' value={userData.username} onChange={(e)=>setuserData({...userData,username:e.target.value})} /> 
-                                    </Form.Group>
-                                
-                           
-                            <Form.Group className='mt-3' controlId="validationFormik01">
-                            <Form.Control style={{borderRadius:'10px'}} type="text" placeholder='Enter Your Password'  value={userData.password} onChange={(e)=>setuserData({...userData,password:e.target.value})}  />
+      <br/>
+      <br/>
+      <Card className="card-user" style={{ backgroundColor: 'white', borderColor: 'rgb(104, 60, 184)', borderWidth: '2px', borderStyle: 'solid' }}>
+            <CardBody>
+                <div className='row'>
+                    <Col data-aos="fade-right" md={6} sm={12} className='me-5'>
+                        <img src={giff} height={'100%'} alt="image" />
+                    </Col>
+                    <Col data-aos="fade-left" className='ms-5'>
+                        <h2 style={{ fontWeight: '500' }}>Login</h2>
+                        <h5 className='ms-5 mt-4'></h5>
+                        <br />
+                        <br />
+                        <Form>
+                            <Form.Group className='mt-5' controlId="validationFormik01">
+                                <Form.Control 
+                                    style={{ borderRadius: '10px' }} 
+                                    type="text" 
+                                    placeholder='Enter Yourname' 
+                                    value={userData.username} 
+                                    onChange={(e) => setUserData({ ...userData, username: e.target.value })} 
+                                />
                             </Form.Group>
-                            {errorMessage && <div style={{color:'red'}} className="error">{errorMessage}</div>}
-                           
-                                <div className='d-flex align-items-center flex-column mt-4'>
-                                    <button onClick={handleLogin}   style={{borderRadius:'10px',backgroundColor:'FFD400'}} className='btn btn-dark'>Login</button>
-
-                                </div>
-
-
-
-
-                        
-
-
-
-                            
-                               
-                            
-
-                            </Form>
-                            
-
-                
-                </Col>
-
-                        </div>
-                      
-                      </CardBody>
-                    </Card>
+                            <Form.Group className='mt-3' controlId="validationFormik02">
+                                <Form.Control 
+                                    style={{ borderRadius: '10px' }} 
+                                    type="text" 
+                                    placeholder='Enter Your Password' 
+                                    value={userData.password} 
+                                    onChange={(e) => setUserData({ ...userData, password: e.target.value })} 
+                                />
+                            </Form.Group>
+                            {errorMessage && <div style={{ color: 'red' }} className="error">{errorMessage}</div>}
+                            <div className='d-flex align-items-center flex-column mt-4'>
+                                <button 
+                                    onClick={handleLogin} 
+                                    style={{ borderRadius: '10px', backgroundColor: 'rgb(104, 60, 184)' }} 
+                                    className='btn btn-dark'
+                                >
+                                    Login
+                                </button>
+                            </div>
+                        </Form>
+                    </Col>
+                </div>
+            </CardBody>
+        </Card>
                     </div>
                     <div className='col-1'></div>
    </div>

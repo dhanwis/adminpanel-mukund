@@ -146,7 +146,9 @@ function Dashboard() {
                <Table responsive>
   <thead className="text-primary">
     <tr>
+
        <th>ID</th>
+       
       <th>Name</th>
      
       <th>Image</th>
