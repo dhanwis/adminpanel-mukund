@@ -118,7 +118,7 @@ password:""
                             <Form.Group className='mt-3' controlId="validationFormik02">
                                 <Form.Control 
                                     style={{ borderRadius: '10px' }} 
-                                    type="text" 
+                                    type="password" 
                                     placeholder='Enter Your Password' 
                                     value={userData.password} 
                                     onChange={(e) => setUserData({ ...userData, password: e.target.value })} 
