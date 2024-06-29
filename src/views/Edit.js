@@ -147,7 +147,7 @@ function Edit({ pass }) {
         className='form-control' 
         value={productDetails.productname} 
         onChange={(e) => setproductDetails({ ...productDetails, productname: e.target.value })} 
-        maxLength={25}
+        maxLength={27}
       />
     </div>
     <div className='mb-3 w-100'>
@@ -155,6 +155,7 @@ function Edit({ pass }) {
         style={{ height: '80px' }} 
         type="text" 
         className='form-control'  
+        maxLength={110}
         value={productDetails.description} 
         onChange={(e) => setproductDetails({ ...productDetails, description: e.target.value })} 
       />

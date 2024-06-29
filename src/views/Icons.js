@@ -147,7 +147,7 @@ function Icons() {
         style={{ height: '200px', width: '270px' }}
       />
       <CardBody>
-        <CardTitle tag="h5">
+        <CardTitle tag="h5" style={{ width: '15rem', height: '55px' }}>
           {item.productname}
         </CardTitle>
         <CardText style={{ width: '15rem', height: '6rem' }}>
@@ -192,7 +192,7 @@ function Icons() {
                 <Form.Control type="text" placeholder="Enter product name"  value={product.productname} onChange={(e) => setProduct({ ...product, productname: e.target.value })}  maxLength={25}/>
               </div>
               <div className='mb-3 w-100'>
-                <Form.Control style={{ padding: '25px' }} type="text" placeholder="Enter description" value={product.description} onChange={(e) => {
+                <Form.Control style={{ padding: '25px' }}  type="text" placeholder="Enter description"  maxLength={100} value={product.description} onChange={(e) => {
       const inputValue = e.target.value;
       if (inputValue.length <= 100) {
         setProduct({

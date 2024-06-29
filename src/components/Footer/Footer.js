@@ -28,12 +28,12 @@ function Footer(props) {
               </li>
             </ul>
           </nav> */}
-          <div className="credits ml-auto">
+          {/* <div className="credits ml-auto">
             <div className="copyright">
               &copy; {1900 + new Date().getYear()}, made with{" "}
               <i className="fa fa-heart heart" /> by Creative Tim
             </div>
-          </div>
+          </div> */}
         </Row>
       </Container>
     </footer>

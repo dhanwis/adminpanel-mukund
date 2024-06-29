@@ -9,7 +9,11 @@ import UserPage from "views/User.js";
 import UpgradeToPro from "views/Upgrade.js";
 import Login from "views/Login.js";
 
+
+
 var routes = [
+
+  
   {
     path: "/dashboard",
     name: "Dashboard",

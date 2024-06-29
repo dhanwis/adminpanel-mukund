@@ -1,25 +1,9 @@
-
-import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Container,
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon,
-  Input,
-} from "reactstrap";
-
+import React, { useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Navbar, NavbarToggler, NavbarBrand, Container } from "reactstrap";
+import Swal from "sweetalert2";
 import routes from "routes.js";
+import { isauthtokencontext } from "components/context/ContextShareeee";
 
 function Header(props) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -73,17 +57,27 @@ function Header(props) {
     }
   }, [location]);
 
+  const { authtoken, setauthtoken } = useContext(isauthtokencontext);
 
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Are you sure you want to logout?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, logout!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setauthtoken(false);
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("existinguser");
+        navigate('/login');
+      }
+    });
+  };
 
-  const navigate=useNavigate()
-  const handlelogout=()=>{
-    sessionStorage.removeItem("token")
-    sessionStorage.removeItem("existinguser")
-// navigate to home page
-    navigate('/login')
-
-
-  }
   return (
     // add or remove classes depending if we are on full-screen-maps page or not
     <Navbar
@@ -118,60 +112,20 @@ function Header(props) {
           <span className="navbar-toggler-bar navbar-kebab" />
           <span className="navbar-toggler-bar navbar-kebab" />
           <span className="navbar-toggler-bar navbar-kebab" />
-        </NavbarToggler>
-        {/* <Collapse isOpen={isOpen} navbar className="justify-content-end">
-          <form>
-            <InputGroup className="no-border">
-              <Input placeholder="Search..." />
-              <InputGroupAddon addonType="append">
-                <InputGroupText>
-                  <i className="nc-icon nc-zoom-split" />
-                </InputGroupText>
-              </InputGroupAddon>
-            </InputGroup>
-          </form>
-          <Nav navbar>
-            <NavItem>
-              <Link to="#pablo" className="nav-link btn-magnify">
-                <i className="nc-icon nc-layout-11" />
-                <p>
-                  <span className="d-lg-none d-md-block">Stats</span>
-                </p>
-              </Link>
-            </NavItem>
-            <Dropdown
-              nav
-              isOpen={dropdownOpen}
-              toggle={(e) => dropdownToggle(e)}
-            >
-              <DropdownToggle caret nav>
-                <i className="nc-icon nc-bell-55" />
-                <p>
-                  <span className="d-lg-none d-md-block">Some Actions</span>
-                </p>
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem tag="a">Action</DropdownItem>
-                <DropdownItem tag="a">Another Action</DropdownItem>
-                <DropdownItem tag="a">Something else here</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            <NavItem>
-              <Link to="#pablo" className="nav-link btn-rotate">
-                <i className="nc-icon nc-settings-gear-65" />
-                <p>
-                  <span className="d-lg-none d-md-block">Account</span>
-                </p>
-              </Link>
-            </NavItem>
-          </Nav>
-        </Collapse> */}
+        </NavbarToggler>     
 
-<button onClick={handlelogout}  style={{borderRadius:"10px",float:'right'}} className='btn btn-primary' >Logout <i class="fa-solid fa-right-from-bracket"></i></button>
-
+        <button
+          onClick={handleLogout}
+          style={{ borderRadius: "10px", float: 'right' }}
+          className='btn btn-primary'
+        >
+          Logout <i className="fa-solid fa-right-from-bracket"></i>
+        </button>
       </Container>
     </Navbar>
   );
 }
 
 export default Header;
+
+

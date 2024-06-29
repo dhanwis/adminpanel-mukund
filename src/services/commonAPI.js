@@ -7,7 +7,7 @@ import axios from "axios";
         url,
         data:reqbody,
         headers:reqheader?reqheader:{"Content-Type":"application/json"}
-        // there are two type of content to upoad
+        // there are two type of content to upload
 
     }
     return await axios(reqconfig).then((result)=>{
@@ -16,4 +16,5 @@ import axios from "axios";
         return err
     })
 
-}
+}     
+
