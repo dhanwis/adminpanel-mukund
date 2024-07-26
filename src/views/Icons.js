@@ -136,34 +136,35 @@ function Icons() {
               </CardHeader>
               <CardBody className="all-icons">
                 <div className="container">
-                <div className='row'>
+                <div className="row">
   {getProduct && getProduct.length > 0 ? getProduct.map((item) => (
-    <div className='col-12 col-md-6 col-lg-4 mb-4' key={item.id}>
-    <Card style={{ width: '270px', border: '1px solid rgb(52, 181, 184)', borderRadius: '10px', overflow: 'hidden' }}>
-      <CardImg
-        alt="image"
-        src={`${BASE_URL}/uploads/${item.image}`}
-        top
-        style={{ height: '200px', width: '270px' }}
-      />
-      <CardBody>
-        <CardTitle tag="h5" style={{ width: '15rem', height: '55px' }}>
-          {item.productname}
-        </CardTitle>
-        <CardText style={{ width: '15rem', height: '6rem' }}>
-          {item.description}
-        </CardText>
-        <Edit pass={item} />   
-      </CardBody>
-    </Card>
+    <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4" key={item.id}>
+      <Card style={{ width: '100%', border: '1px solid rgb(52, 181, 184)', borderRadius: '10px', overflow: 'hidden' }}>
+        <CardImg
+          alt="image"
+          src={`${BASE_URL}/uploads/${item.image}`}
+          top
+          style={{ height: '200px', width: '100%' }}
+        />
+        <CardBody>
+          <CardTitle tag="h5">
+            {item.productname}
+          </CardTitle>
+          <CardText style={{ width: '100%', height: '11rem', whiteSpace: 'pre-wrap' }}>
+            {item.description}
+          </CardText>
+          <Edit pass={item} />
+        </CardBody>
+      </Card>
     </div>
   )) : (
     <div className="col-12 d-flex flex-column align-items-center">
-      <img className='mb-5' style={{width:'35%'}} src={nodata} alt="Description of the image" />
-      <h4 className='mb-5' style={{color:'#d22127', textAlign:'center'}}>No products found!</h4>
+      <img className="mb-5" style={{ width: '35%' }} src={nodata} alt="Description of the image" />
+      <h4 className="mb-5" style={{ color: '#d22127', textAlign: 'center' }}>No products found!</h4>
     </div>
   )}
 </div>
+
 
                 </div>
               </CardBody>
@@ -192,22 +193,29 @@ function Icons() {
                 <Form.Control type="text" placeholder="Enter product name"  value={product.productname} onChange={(e) => setProduct({ ...product, productname: e.target.value })}  maxLength={25}/>
               </div>
               <div className='mb-3 w-100'>
-                <Form.Control style={{ padding: '25px' }}  type="text" placeholder="Enter description"  maxLength={100} value={product.description} onChange={(e) => {
+  <Form.Control 
+    as="textarea" 
+    rows={3} 
+    style={{ padding: '20px' }} 
+    placeholder="Enter description" 
+    value={product.description} 
+    onChange={(e) => {
       const inputValue = e.target.value;
-      if (inputValue.length <= 100) {
+      if (inputValue.length <= 250) {
         setProduct({
           ...product,
           description: inputValue,
         });
       } else {
-        // Truncate the input to 14 characters
+        // Truncate the input to 250 characters
         setProduct({
           ...product,
-          description: inputValue.substring(0, 90),
+          description: inputValue.substring(0, 250),
         });
       }
-    }} />
-              </div>
+    }} 
+  />
+</div>
               <center>
                 <Button onClick={handleAdd}>
                   Add

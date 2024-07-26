@@ -151,15 +151,14 @@ function Edit({ pass }) {
       />
     </div>
     <div className='mb-3 w-100'>
-      <input 
-        style={{ height: '80px' }} 
-        type="text" 
-        className='form-control'  
-        maxLength={110}
-        value={productDetails.description} 
-        onChange={(e) => setproductDetails({ ...productDetails, description: e.target.value })} 
-      />
-    </div>
+  <textarea
+    style={{ height: '120px' }}
+    className='form-control'
+    value={productDetails.description}
+    onChange={(e) => setproductDetails({ ...productDetails, description: e.target.value })}
+    maxLength={250}
+  />
+</div>
   </Modal.Body>
   <Modal.Footer>
     <Button onClick={() => handleConfirmDelete(pass._id)} style={{ backgroundColor: 'rgb(221, 21, 61)' }}>
