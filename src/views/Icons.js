@@ -12,6 +12,14 @@ import { addprojectresponsecontext } from "components/context/ContextShareeee";
 import { editprojectresponsecontext } from "components/context/ContextShareeee";
 import Swal from "sweetalert2";
 import nodata from "assets/img/no-data2.1.gif";
+import { FilePond, registerPlugin } from 'react-filepond';
+import 'filepond/dist/filepond.min.css';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+
+// Register the plugins
+registerPlugin(FilePondPluginImagePreview, FilePondPluginImageExifOrientation);
 
 
 
@@ -38,7 +46,7 @@ function Icons() {
   const [product, setProduct] = useState({
     productname: "",
     description: "",
-    image: ""
+    image: []
   });
   console.log(product);
 
@@ -120,6 +128,15 @@ function Icons() {
       });
     }
   };
+
+
+  const handleFilePondUpdate = (fileItems) => {
+    // Set currently active file objects to state
+    setProduct({
+      ...product,
+      image: fileItems.map(fileItem => fileItem.file) // Store file objects in the state
+    });
+  };
   
   
   return (
@@ -182,12 +199,21 @@ function Icons() {
             <Box sx={style}>
               <h3 className="mb-5" style={{ textAlign: 'center' }}>Add Products</h3>
               
-              <center>
+              {/* <center>
                 <label htmlFor="imag">
                   <input id='imag' type="file" style={{ display: 'none' }} onChange={(e) => setProduct({ ...product, image: e.target.files[0] })} />
                   <img src={preview ? preview : logo} alt="" width={'160px'} height={'160px'} />
                 </label>
-              </center>
+              </center> */}
+               <div className="App">
+               <FilePond
+        allowMultiple={true}
+        maxFiles={5}
+        name="images"
+        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+        onupdatefiles={handleFilePondUpdate}
+      />
+    </div>
               <br />
               <div className='mb-3 w-100'>
                 <Form.Control type="text" placeholder="Enter product name"  value={product.productname} onChange={(e) => setProduct({ ...product, productname: e.target.value })}  maxLength={25}/>
