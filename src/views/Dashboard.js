@@ -15,7 +15,6 @@ import {
 } from "reactstrap";
 import { allproductAPI } from "services/allAPI";
 import { BASE_URL } from "services/baseurl";
-import nodata from "assets/img/no-data2.1.gif";
 
 function Dashboard() {
   const [getProduct, setgetProduct] = useState([]);

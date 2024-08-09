@@ -5,6 +5,12 @@ import { editProductAPI, deleteProductAPI } from 'services/allAPI';
 import { BASE_URL } from 'services/baseurl';
 import Swal from 'sweetalert2';
 import { editprojectresponsecontext } from 'components/context/ContextShareeee';
+import { FilePond, registerPlugin } from 'react-filepond';
+import 'filepond/dist/filepond.min.css';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+registerPlugin(FilePondPluginImagePreview, FilePondPluginImageExifOrientation);
 
 function Edit({ pass }) {
   const [show, setShow] = useState(false);
@@ -19,10 +25,14 @@ function Edit({ pass }) {
     description: pass.description,
     image: ""
   });
+  console.log(productDetails);
+  
 
   useEffect(() => {
-    if (productDetails.image) {
-      setpreview(URL.createObjectURL(productDetails.image));
+    if (productDetails.image && productDetails.image.length > 0) {
+      setpreview(URL.createObjectURL(productDetails.image[0])); // Assuming you want to preview the first image
+    } else {
+      setpreview("");
     }
   }, [productDetails.image]);
 
@@ -30,44 +40,55 @@ function Edit({ pass }) {
     const { id, productname, description, image } = productDetails;
 
     if (!productname || !description) {
-      alert('please fill the form completely');
+        alert('please fill the form completely');
     } else {
-      const reqbody = new FormData();
-      reqbody.append("productname", productname);
-      reqbody.append("description", description);
+        const reqbody = new FormData();
+        reqbody.append("productname", productname);
+        reqbody.append("description", description);
 
-      if (preview) {
-        reqbody.append("image", image);
-      } else {
-        reqbody.append("image", pass.image);
-      }
+        if (image && image.length > 0) {
+            image.forEach((img) => {
+                reqbody.append("image", img); // Append each image file
+            });
+        } else {
+            pass.image.forEach((img) => {
+                reqbody.append("image", img); // Append existing images if no new images are uploaded
+            });
+        }
 
-      const reqheader = {
-        "Content-Type": preview ? "multipart/form-data" : "application/json"
-      };
-      
-      const result = await editProductAPI(id, reqbody, reqheader);
-      if (result.status === 200) {
-        Swal.fire({
-          icon:'success',
-          title: 'Updated Successfully',
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-          }
-        })
-       
-        handleClose();
-        seteditprojectresponse(prevResponse => Array.isArray(prevResponse) 
-          ? prevResponse.map(item => item._id === id ? result.data : item)
-          : []);
-      } else {
-        console.log(result.response.data);
-      }
+        const reqheader = {
+            "Content-Type": "multipart/form-data"
+        };
+
+        try {
+            const result = await editProductAPI(id, reqbody, reqheader);
+            console.log(result);
+
+            if (result.status === 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Updated Successfully',
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInDown'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutUp'
+                    }
+                });
+
+                handleClose();
+                seteditprojectresponse(prevResponse => Array.isArray(prevResponse)
+                    ? prevResponse.map(item => item._id === id ? result.data : item)
+                    : []);
+            } else {
+                console.log(result.response.data);
+            }
+        } catch (err) {
+            console.error("Error updating product:", err);
+        }
     }
-  };
+};
+
 
   const handleDeleteMenu = async (id) => {
     let reqheader = {
@@ -111,6 +132,14 @@ function Edit({ pass }) {
     });
   };
 
+  const handleFilePondUpdate = (fileItems) => {
+    setproductDetails({
+      ...productDetails,
+      image: fileItems.map(fileItem => fileItem.file)
+    });
+  };
+  
+
   return (
     <div>
       <Button onClick={handleShow}>
@@ -123,23 +152,7 @@ function Edit({ pass }) {
   <i onClick={handleClose} style={{float:'left'}} class="fa-solid fa-xmark"></i>
   </Modal.Header>
   <Modal.Body>
-    <center>
-      <label htmlFor="imag">
-        <input 
-          id='imag' 
-          type="file" 
-          style={{ display: 'none' }} 
-          onChange={(e) => setproductDetails({ ...productDetails, image: e.target.files[0] })} 
-        />
-        <img 
-          className='' 
-          src={preview ? preview : `${BASE_URL}/uploads/${pass.image}`} 
-          alt=""  
-          width={'160px'} 
-          height={'160px'} 
-        />
-      </label>
-    </center>
+  
     <br />
     <div className='mb-3 w-100'>
       <input 
@@ -152,12 +165,20 @@ function Edit({ pass }) {
     </div>
     <div className='mb-3 w-100'>
   <textarea
-    style={{ height: '120px' }}
+   
     className='form-control'
     value={productDetails.description}
     onChange={(e) => setproductDetails({ ...productDetails, description: e.target.value })}
     maxLength={250}
   />
+<br/>
+<FilePond
+            allowMultiple={true}
+            maxFiles={5}
+            name="images"
+            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+            onupdatefiles={handleFilePondUpdate}
+          />
 </div>
   </Modal.Body>
   <Modal.Footer>
