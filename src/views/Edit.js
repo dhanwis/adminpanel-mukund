@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { editProductAPI, deleteProductAPI } from 'services/allAPI';
-import { BASE_URL } from 'services/baseurl';
 import Swal from 'sweetalert2';
 import { editprojectresponsecontext } from 'components/context/ContextShareeee';
 import { FilePond, registerPlugin } from 'react-filepond';
@@ -174,10 +173,10 @@ function Edit({ pass }) {
 <br/>
 <FilePond
             allowMultiple={true}
-            maxFiles={5}
+            maxFiles={10}
             name="images"
             labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-            onupdatefiles={handleFilePondUpdate}
+            onupdatefiles={handleFilePondUpdate} 
           />
 </div>
   </Modal.Body>
