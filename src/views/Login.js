@@ -54,9 +54,9 @@ password:""
               const result = await loginAPI(userData);
               console.log(result);
               if (result.status === 200) {
-                setauthtoken(true)
-                  sessionStorage.setItem('existinguser', JSON.stringify(result.data.existinguser));
-                  sessionStorage.setItem('token', result.data.token);
+                setauthtoken(true);
+                sessionStorage.setItem('token', result.data.token);
+                
                   setUserData({
                       username: '',
                       password: ''

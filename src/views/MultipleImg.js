@@ -1,12 +1,12 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
 import { BASE_URL } from '../services/baseurl';
- // Import the custom CSS file
- import './Buttonstyle.css'
+// Import the custom CSS file
+import './Buttonstyle.css';
 
 const ImageCarousel = ({ image }) => {
   return (
-    <Carousel>
+    <Carousel controls={false} interval={2000} indicators={false} pause="hover">
       {image.map((img, index) => (
         <Carousel.Item key={index}>
           <img

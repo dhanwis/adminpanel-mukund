@@ -97,7 +97,7 @@ function Dashboard() {
                             <td>{item.productname}</td>
                             <td>
                               <img
-                                src={`${BASE_URL}/uploads/${item.image}`}
+                                src={`${BASE_URL}/uploads/${item.image[0]}`}
                                 alt={item.productname}
                                 style={{
                                   width: '60px',

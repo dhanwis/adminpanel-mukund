@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
@@ -14,13 +14,24 @@ import { isauthtokencontext } from "components/context/ContextShareeee";
 import ErrorPage from "views/Errorss";
 
 const App = () => {
-  const {authtoken,setauthtoken}=useContext(isauthtokencontext)
+  const { authtoken, setauthtoken } = useContext(isauthtokencontext);
+
+  // Check sessionStorage for token on app load
+  useEffect(() => {
+    const savedToken = sessionStorage.getItem("token");
+    if (savedToken) {
+      setauthtoken(true);
+    }
+  }, [setauthtoken]);
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/admin/*" element={authtoken?<AdminLayout />:<Login/>} />
+        <Route
+          path="/admin/*"
+          element={authtoken ? <AdminLayout /> : <Navigate to="/login" replace />}
+        />
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
