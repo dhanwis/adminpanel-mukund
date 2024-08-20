@@ -3,23 +3,19 @@ import React from 'react'
 import  { useContext, useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from "components/context/ContextShareeee";
 import {
-    Button,
+  
     Card,
-    CardHeader,
+    
     CardBody,
-    CardFooter,
-    CardTitle,
-    FormGroup,
    
-    Input,
    
   } from "reactstrap";
 
   import giff from "assets/img/login-animate.gif";
 import { loginAPI } from 'services/allAPI';
-import { isauthtokencontext } from 'components/context/ContextShareeee';
 
 
 
@@ -34,9 +30,10 @@ password:""
   })
 
   console.log(userData);
+  const { setIsAuthenticated } = useContext(AuthContext);
 
 
-  const {authtoken,setauthtoken}=useContext(isauthtokencontext)
+//   const {authtoken,setauthtoken}=useContext(isauthtokencontext)
 
 
   const navigate=useNavigate()
@@ -45,32 +42,32 @@ password:""
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = async (e) => {
-      e.preventDefault();
-      const { username, password } = userData;
-      if (!username || !password) {
-          setErrorMessage('Please fill the form completely');
-      } else {
-          try {
-              const result = await loginAPI(userData);
-              console.log(result);
-              if (result.status === 200) {
-                setauthtoken(true);
-                sessionStorage.setItem('token', result.data.token);
-                
-                  setUserData({
-                      username: '',
-                      password: ''
-                    
-                  });
-                  navigate('/admin/dashboard');
-              } else {
-                  setErrorMessage(result.response.data);
-              }
-          } catch (error) {
-              console.error('Error:', error);
-              setErrorMessage('An error occurred. Please try again later.');
-          }
+    e.preventDefault();
+    const { username, password } = userData;
+    if (!username || !password) {
+      setErrorMessage('Please fill the form completely');
+    } else {
+      try {
+        const result = await loginAPI(userData);
+        console.log(result);
+        if (result.status === 200) {
+          sessionStorage.setItem('token', result.data.token);
+          
+          setIsAuthenticated(true); // Update authentication state
+
+          setUserData({
+            username: '',
+            password: ''
+          });
+          navigate('/admin/dashboard');
+        } else {
+          setErrorMessage(result.response.data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setErrorMessage('An error occurred. Please try again later.');
       }
+    }
   };
 
   return (

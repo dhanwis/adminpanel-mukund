@@ -210,7 +210,7 @@ function Icons() {
           <Form.Control 
             as="textarea" 
             rows={3} 
-            style={{ padding: '20px' }} 
+            style={{ padding: '40px' }} 
             placeholder="Enter description" 
             value={product.description} 
             onChange={(e) => {
