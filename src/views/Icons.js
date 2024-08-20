@@ -202,7 +202,7 @@ function Icons() {
             placeholder="Enter product name"  
             value={product.productname} 
             onChange={(e) => setProduct({ ...product, productname: e.target.value })}  
-            maxLength={25}
+            maxLength={22}
           />
         </div>
 
