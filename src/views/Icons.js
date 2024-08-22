@@ -118,10 +118,10 @@ function Icons() {
   };
 
   const handleFilePondUpdate = (fileItems) => {
-    setProduct({
-      ...product,
+    setProduct((prevProduct) => ({
+      ...prevProduct,
       image: fileItems.map(fileItem => fileItem.file)
-    });
+    }));
   };
   
   return (
