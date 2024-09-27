@@ -29,7 +29,7 @@ password:""
 
   })
 
-  console.log(userData);
+  // console.log(userData);
   const { setIsAuthenticated } = useContext(AuthContext);
 
 
@@ -49,7 +49,7 @@ password:""
     } else {
       try {
         const result = await loginAPI(userData);
-        console.log(result);
+        // console.log(result);
         if (result.status === 200) {
           sessionStorage.setItem('token', result.data.token);
           

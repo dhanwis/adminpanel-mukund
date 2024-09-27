@@ -53,7 +53,7 @@ function Icons() {
     description: "",
     image: []
   });
-  console.log(product);
+  // console.log(product);
 
   const [getProduct, setgetProduct] = useState([]);
 
@@ -66,7 +66,7 @@ function Icons() {
       "Content-Type": "application/json",
     };
     const result = await allproductAPI(reqheader);
-    console.log("hii",result);
+    // console.log("hii",result);
     
     setgetProduct(result.data);
   };
@@ -90,7 +90,7 @@ function Icons() {
       };
 
       const result = await addprductAPI(reqbody, reqheader);
-      console.log(result);
+      // console.log(result);
       
       if (result.status === 200) {
         Swal.fire({

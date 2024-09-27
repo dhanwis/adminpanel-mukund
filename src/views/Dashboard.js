@@ -40,7 +40,7 @@ function Dashboard() {
     setaddprojectresponse(result.data);
   };
 
-  console.log(getProduct);
+  // console.log(getProduct);
 
   return (
     <>

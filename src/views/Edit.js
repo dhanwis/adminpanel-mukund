@@ -24,7 +24,7 @@ function Edit({ pass }) {
     description: pass.description,
     image: ""
   });
-  console.log(productDetails);
+  // console.log(productDetails);
   
 
   useEffect(() => {
@@ -61,7 +61,7 @@ function Edit({ pass }) {
 
         try {
             const result = await editProductAPI(id, reqbody, reqheader);
-            console.log(result);
+            // console.log(result);
 
             if (result.status === 200) {
                 Swal.fire({
@@ -80,7 +80,7 @@ function Edit({ pass }) {
                     ? prevResponse.map(item => item._id === id ? result.data : item)
                     : []);
             } else {
-                console.log(result.response.data);
+                 console.log(result.response.data);
             }
         } catch (err) {
             console.error("Error updating product:", err);
@@ -164,7 +164,6 @@ function Edit({ pass }) {
     </div>
     <div className='mb-3 w-100'>
   <textarea
-   
     className='form-control'
     value={productDetails.description}
     onChange={(e) => setproductDetails({ ...productDetails, description: e.target.value })}
